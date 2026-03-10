@@ -1,0 +1,319 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Playwright Locators Practice</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 40px auto;
+            padding: 20px;
+            background: #f5f5f5;
+        }
+        .section {
+            background: white;
+            padding: 20px;
+            margin-bottom: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        h1 {
+            color: #2c3e50;
+            text-align: center;
+        }
+        h2 {
+            color: #3498db;
+            border-bottom: 2px solid #3498db;
+            padding-bottom: 10px;
+        }
+        button {
+            background: #3498db;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            margin: 5px;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        button:hover {
+            background: #2980b9;
+        }
+        input, textarea {
+            padding: 8px;
+            margin: 5px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+        .result {
+            margin-top: 10px;
+            padding: 10px;
+            background: #ecf0f1;
+            border-radius: 4px;
+            display: none;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 10px;
+        }
+        th, td {
+            border: 1px solid #ddd;
+            padding: 12px;
+            text-align: left;
+        }
+        th {
+            background: #3498db;
+            color: white;
+        }
+    </style>
+</head>
+<body>
+    <h1>Playwright Built-in Locators Practice</h1>
+
+    <!-- getByRole Examples -->
+    <div class="section">
+        <h2>getByRole - Semantic Roles</h2>
+        <button>Click Me</button>
+        <button disabled>Disabled Button</button>
+        <a href="#link">Navigation Link</a>
+        <input type="checkbox" id="agree" />
+        <label for="agree">I agree to terms</label>
+        <div id="role-result" class="result"></div>
+    </div>
+
+    <!-- getByText Examples -->
+    <div class="section">
+        <h2>getByText - Text Content</h2>
+        <p>Find this exact text</p>
+        <div>Partial text matching works too</div>
+        <span>Case sensitive by default</span>
+        <button onclick="showResult('text-result', 'Text found!')">Submit Form</button>
+        <div id="text-result" class="result"></div>
+    </div>
+
+    <!-- getByLabel Examples -->
+    <div class="section">
+        <h2>getByLabel - Form Labels</h2>
+        <form>
+            <label for="username">Username:</label>
+            <input type="text" id="username" name="username" />
+            <br><br>
+            <label for="email">Email Address:</label>
+            <input type="email" id="email" name="email" />
+            <br><br>
+            <label for="message">Message:</label>
+            <textarea id="message" name="message"></textarea>
+        </form>
+    </div>
+
+    <!-- getByPlaceholder Examples -->
+    <div class="section">
+        <h2>getByPlaceholder - Input Placeholders</h2>
+        <input type="text" placeholder="Search for products..." />
+        <input type="email" placeholder="Enter your email" />
+        <input type="tel" placeholder="Phone number" />
+    </div>
+
+    <!-- getByAltText Examples -->
+    <div class="section">
+        <h2>getByAltText - Image Alt Text</h2>
+        <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='100' height='100'%3E%3Crect fill='%233498db' width='100' height='100'/%3E%3Ctext x='50%25' y='50%25' dominant-baseline='middle' text-anchor='middle' fill='white' font-size='14'%3ELogo%3C/text%3E%3C/svg%3E" alt="Company Logo" />
+        <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='100' height='100'%3E%3Crect fill='%2327ae60' width='100' height='100'/%3E%3Ctext x='50%25' y='50%25' dominant-baseline='middle' text-anchor='middle' fill='white' font-size='14'%3EProfile%3C/text%3E%3C/svg%3E" alt="User Profile Picture" />
+    </div>
+
+    <!-- getByTitle Examples -->
+    <div class="section">
+        <h2>getByTitle - Title Attributes</h2>
+        <button title="Delete item">🗑️</button>
+        <button title="Edit content">✏️</button>
+        <span title="This is a tooltip">Hover over me</span>
+    </div>
+
+    <!-- getByTestId Examples -->
+    <div class="section">
+        <h2>getByTestId - Test IDs</h2>
+        <div data-testid="welcome-message">Welcome to the app!</div>
+        <button data-testid="submit-btn" onclick="showResult('testid-result', 'Submitted!')">Submit</button>
+        <div data-testid="user-profile">
+            <span data-testid="user-name">John Doe</span>
+            <span data-testid="user-email">john@example.com</span>
+        </div>
+        <input type="text" data-testid="search-input" placeholder="Search..." />
+        <button data-testid="delete-btn" title="Delete">🗑️</button>
+        <div id="testid-result" class="result"></div>
+    </div>
+
+    <!-- More getByRole Examples -->
+    <div class="section">
+        <h2>More getByRole Examples</h2>
+        <nav>
+            <a href="#home">Home</a>
+            <a href="#about">About</a>
+            <a href="#contact">Contact</a>
+        </nav>
+        <input type="radio" id="option1" name="choice" />
+        <label for="option1">Option 1</label>
+        <input type="radio" id="option2" name="choice" />
+        <label for="option2">Option 2</label>
+        <br><br>
+        <input type="checkbox" id="subscribe" />
+        <label for="subscribe">Subscribe to newsletter</label>
+        <br><br>
+        <select>
+            <option>Select option</option>
+            <option>Option A</option>
+            <option>Option B</option>
+        </select>
+    </div>
+
+    <!-- More getByText Examples -->
+    <div class="section">
+        <h2>More getByText Examples</h2>
+        <p>This is a paragraph with unique text</p>
+        <div>Welcome back, User!</div>
+        <span>Status: Active</span>
+        <button>Add to Cart</button>
+        <button>Buy Now</button>
+        <a href="#">Learn More</a>
+    </div>
+
+    <!-- More getByLabel Examples -->
+    <div class="section">
+        <h2>More getByLabel Examples</h2>
+        <form>
+            <label for="firstname">First Name:</label>
+            <input type="text" id="firstname" />
+            <br><br>
+            <label for="lastname">Last Name:</label>
+            <input type="text" id="lastname" />
+            <br><br>
+            <label for="password">Password:</label>
+            <input type="password" id="password" />
+            <br><br>
+            <label for="bio">Biography:</label>
+            <textarea id="bio" rows="3"></textarea>
+            <br><br>
+            <label for="country">Country:</label>
+            <select id="country">
+                <option>USA</option>
+                <option>Canada</option>
+                <option>UK</option>
+            </select>
+        </form>
+    </div>
+
+    <!-- More getByPlaceholder Examples -->
+    <div class="section">
+        <h2>More getByPlaceholder Examples</h2>
+        <input type="text" placeholder="First name" />
+        <input type="text" placeholder="Last name" />
+        <input type="date" placeholder="Select date" />
+        <input type="number" placeholder="Enter amount" />
+        <textarea placeholder="Write your comment here..."></textarea>
+    </div>
+
+    <!-- More getByAltText Examples -->
+    <div class="section">
+        <h2>More getByAltText Examples</h2>
+        <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='80' height='80'%3E%3Crect fill='%23e74c3c' width='80' height='80'/%3E%3Ctext x='50%25' y='50%25' dominant-baseline='middle' text-anchor='middle' fill='white' font-size='12'%3EProduct%3C/text%3E%3C/svg%3E" alt="Product Image" />
+        <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='80' height='80'%3E%3Crect fill='%23f39c12' width='80' height='80'/%3E%3Ctext x='50%25' y='50%25' dominant-baseline='middle' text-anchor='middle' fill='white' font-size='12'%3EBanner%3C/text%3E%3C/svg%3E" alt="Hero Banner" />
+        <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='80' height='80'%3E%3Crect fill='%239b59b6' width='80' height='80'/%3E%3Ctext x='50%25' y='50%25' dominant-baseline='middle' text-anchor='middle' fill='white' font-size='12'%3EAvatar%3C/text%3E%3C/svg%3E" alt="User Avatar" />
+    </div>
+
+    <!-- More getByTitle Examples -->
+    <div class="section">
+        <h2>More getByTitle Examples</h2>
+        <button title="Refresh page">🔄</button>
+        <button title="Settings">⚙️</button>
+        <button title="Notifications">🔔</button>
+        <a href="#" title="Help documentation">❓</a>
+        <div title="Additional information">ℹ️ Info</div>
+    </div>
+
+    <!-- Complex Scenario -->
+    <div class="section">
+        <h2>Complex Form - Practice All Locators</h2>
+        <form data-testid="registration-form">
+            <h3>User Registration</h3>
+            <label for="reg-email">Email:</label>
+            <input type="email" id="reg-email" placeholder="you@example.com" />
+            <br><br>
+            <label for="reg-password">Password:</label>
+            <input type="password" id="reg-password" placeholder="Min 8 characters" />
+            <br><br>
+            <input type="checkbox" id="terms" />
+            <label for="terms">I agree to the terms and conditions</label>
+            <br><br>
+            <button type="submit" data-testid="register-btn" title="Create your account">Register</button>
+            <button type="button">Cancel</button>
+        </form>
+    </div>
+
+    <!-- Table for getByRole('row', 'cell') -->
+    <div class="section">
+        <h2>Table Example - Rows and Cells</h2>
+        <table>
+            <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Role</th>
+                    <th>Status</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>Alice Johnson</td>
+                    <td>Developer</td>
+                    <td>Active</td>
+                </tr>
+                <tr>
+                    <td>Bob Smith</td>
+                    <td>Designer</td>
+                    <td>Active</td>
+                </tr>
+                <tr>
+                    <td>Carol White</td>
+                    <td>Manager</td>
+                    <td>Away</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <!-- Heading Examples -->
+    <div class="section">
+        <h2>Headings - getByRole('heading')</h2>
+        <h1>Main Heading (h1)</h1>
+        <h2>Subheading (h2)</h2>
+        <h3>Section Title (h3)</h3>
+    </div>
+
+    <script>
+        function showResult(id, message) {
+            const el = document.getElementById(id);
+            el.textContent = message;
+            el.style.display = 'block';
+            setTimeout(() => el.style.display = 'none', 3000);
+        }
+
+        document.querySelector('button[title="Delete item"]').addEventListener('click', () => {
+            alert('Delete clicked!');
+        });
+
+        document.querySelector('button[title="Edit content"]').addEventListener('click', () => {
+            alert('Edit clicked!');
+        });
+
+        document.querySelectorAll('.section button').forEach((btn, i) => {
+            if (!btn.onclick && !btn.disabled) {
+                btn.addEventListener('click', () => {
+                    const result = btn.parentElement.querySelector('.result');
+                    if (result) showResult(result.id, `Button ${i + 1} clicked!`);
+                });
+            }
+        });
+    </script>
+</body>
+</html>
